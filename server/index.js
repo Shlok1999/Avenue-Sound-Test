@@ -44,7 +44,7 @@ app.post('/api/login', async (req, res) => {
             email: user.email,
             
         }, 'secret')
-        console.log(token)
+        // console.log(token)
         return res.json({status: 'ok', user: token})
     }else{
         return res.json({status: 'error', user: false})

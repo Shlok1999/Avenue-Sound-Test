@@ -1,0 +1,13 @@
+.login-form{
+    margin: 2rem;
+    background-color: rgb(52, 52, 75);
+    color: white;
+
+}
+.login-form input{
+    height: 2rem;
+    width: 15rem;
+}
+form{
+    padding: 3rem;
+}
