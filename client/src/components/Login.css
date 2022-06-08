@@ -1,13 +1,18 @@
 .login-form{
-    margin: 2rem;
-    background-color: rgb(52, 52, 75);
     color: white;
+    border: 1px solid rgb(52, 52, 75);
+    margin: 5rem;
 
 }
 .login-form input{
     height: 2rem;
-    width: 15rem;
+    width: 80%;
 }
 form{
     padding: 3rem;
+}
+a:hover{
+    text-decoration: none;
+    color: white;
+    background-color: rgb(52, 52, 75);
 }
