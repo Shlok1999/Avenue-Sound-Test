@@ -16,3 +16,12 @@ a:hover{
     color: white;
     background-color: rgb(52, 52, 75);
 }
+.login-btn{
+    color: white;
+    background-color: black;
+    cursor: pointer;
+}
+.login-btn:hover{
+    color: black;
+    background-color: white;
+}

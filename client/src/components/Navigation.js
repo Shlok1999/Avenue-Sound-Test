@@ -11,7 +11,7 @@ function Navigation() {
 
         <div className="nav-links">
           <div className="home">
-            <Link to="/">Home</Link>
+            <Link to="/home">Home</Link>
           </div>
           <div className="services">
             <Link to="#">Services</Link>

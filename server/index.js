@@ -24,19 +24,19 @@ app.post('/api/register', async (req, res) => {
     // console.log(req.body)
     try {
         
-        const password = req.body.password;
-        const confirmPass = req.body.confirmPass;
-        let hash = crypto.createHash('md5').update(password).digest('hex');
-        if(password === confirmPass){
+        // const password = req.body.password;
+        // const confirmPass = req.body.confirmPass;
             // Create User
+            const newPassword = await bcrypt.hash(req.body.password, 10)
             const user = await User.create({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 email: req.body.email,
-                password: req.body.password,
+                password: newPassword,
                 confirmPass: req.body.confirmPass
-            })
-        }
+            }) 
+                     
+        res.json({status: 'ok'})  
         
     } catch(err) {
         res.json({ status: 'error', error: 'Duplicate Email' })
@@ -46,33 +46,50 @@ app.post('/api/register', async (req, res) => {
 // LOGIN PAGE
 
 app.post('/api/login', async (req, res) => {
-    const user = await User.findOne({
-        email: req.body.email,
-        password: req.body.password
-    })
+	const user = await User.findOne({
+		email: req.body.email,
+	})
 
-    if(user){
-        const token = jwt.sign(
-        {
-            name: user.firstName,
-            email: user.email,
-            
-        }, 'secret')
-        console.log(token)
-        return res.json({status: 'ok', user: token})
-    }else{
-        return res.json({status: 'error', user: false})
+	if (!user) {
+		return { status: 'error', error: 'Invalid login' }
+	}
 
-    }
+	const isPasswordValid = await bcrypt.compare(
+		req.body.password,
+		user.password
+	)
+
+	if (isPasswordValid) {
+		const token = jwt.sign(
+			{
+				name: user.name,
+				email: user.email,
+			},
+			'secret123'
+		)
+
+		return res.json({ status: 'ok', user: token })
+	} else {
+		return res.json({ status: 'error', user: false })
+	}
+})
+app.get('/api/home', async (req, res) => {
+	const token = req.headers['x-access-token']
+
+	try {
+		const decoded = jwt.verify(token, 'secret123')
+		const email = decoded.email
+		const user = await User.findOne({ email: email })
+
+		return res.json({ status: 'ok', quote: user.quote })
+	} catch (error) {
+		console.log(error)
+		res.json({ status: 'error', error: 'invalid token' })
+	}
 })
 
 
-// const securePassword =async (password)=>{
-//     const hashed = await bcrypt.hash(password, 10)
-//     console.log(hashed)
-// }
 
-// securePassword('shlok@123')
 
 
 app.listen(2020, () => {

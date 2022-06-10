@@ -3,7 +3,13 @@
   font-family: 'Montserrat', sans-serif;
 
 }
-
+a{
+  cursor: pointer;
+}
+a:hover{
+  color: black;
+  background-color: white;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
